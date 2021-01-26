@@ -1,0 +1,22 @@
+.btn-cart{
+    margin-left: 15px;
+    margin-top: 15px;
+}
+.products{
+    margin-top: 30px;
+   display: flex;
+   justify-content: space-around;
+   flex-wrap: wrap;
+}
+.product-item{
+    outline: 2px solid #000;
+    margin-right: 15px;
+    margin-bottom: 25px;
+    text-align: center;
+    padding-bottom: 10px;
+}
+img{
+    width: 150px;
+    height: 150px;
+    outline: 2px solid #000;
+}
