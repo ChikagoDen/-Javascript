@@ -19,20 +19,23 @@ const renderProduct = (title, price,url="img/zagl.png") =>
 
 // убрал ретерн, (),{},убрал productList
 // 1вариант
+
 // const renderProducts = list => {
 //     document.querySelector('.products').innerHTML = list.map( product => renderProduct(product.title, product.price,product.url)).join("");
 // };
 
 // 2вариант
-// function renderProducts(arr){
-//     for(i=0;i<arr.length;i++){
-//     document.querySelector('.products').insertAdjacentHTML('beforeEnd',renderProduct(arr[i].title,arr[i].price,arr[i].url))
-//     }
-// };
+
+function renderProducts(arr){
+    for(i=0;i<arr.length;i++){
+    document.querySelector('.products').insertAdjacentHTML('beforeEnd',renderProduct(arr[i].title,arr[i].price,arr[i].url))
+    }
+};
 
 // 2 вариант стрелочная функция, плохо понимаю как я это сделал)
-function renderProducts(arr){
-    arr.forEach(good => { document.querySelector('.products').insertAdjacentHTML('beforeEnd',renderProduct(good.title, good.price,good.url));});
-}
+
+// function renderProducts(arr){
+//     arr.forEach(good => { document.querySelector('.products').insertAdjacentHTML('beforeEnd',renderProduct(good.title, good.price,good.url));});
+// }
 
 renderProducts(products);
