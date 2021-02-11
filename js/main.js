@@ -1,91 +1,82 @@
 'use strict';
+const API = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses';
 
-class Product {
-    constructor(product, url = "img/zagl.png", count = 1) {
-        this.title = product.title;
-        this.price = product.price;
-        this.id = product.id;
-        if (product.url != undefined)
-            this.url = product.url;
-        else this.url = url;
-        // количество на складе
-        if (this.count != undefined)
-            this.count = product.count;
-        else this.count = count;
-        // артикул,описание,вес,размер,комплектация
-    }
-    render() {
-        return `<div class="product-item" data-id="${this.id}">
-                        <img src=${this.url} alt="фото товара"> 
-                        <h3>${this.title}</h3>
-                        <p>${this.price + ` &#8381`}</p>
-                        <button class="by-btn">Добавить в корзину</button>
-                    </div>`;
-    }
-    // можно добавить несколько рендеров, для более детального просмотра товара, узнать сколько осталось на складе.
-};
-// можно создать классы для продуктовых товаров и для промышленных
+const app = new Vue({
+  el: '#app',
+  data: {
+    userSearch: '',
+    showCart: false,
+    cartUrl: '/getBasket.json',
+    catalogUrl: '/catalogData.json',
+    products: [],
+    cartItems: [],
+    filtered: [],
+    imgCatalog: 'img/zagl.png',
+    imgCart: 'https://placehold.it/50x100',
+  },
+  methods: {
+    getJson(url) {
+      return fetch(url)
+        .then(result => result.json())
+        .catch(error => {
+          console.log(error);
+        })
+    },
+    addProduct(product) {
+      this.getJson(`${API}/addToBasket.json`)
+        .then(data => {
+          if (data.result === 1) {
+            let find = this.cartItems.find(el => el.id_product === product.id_product);
+            if (find) {
+              find.quantity++;
+            } else {
+              let prod = Object.assign({quantity: 1}, product);
+              this.cartItems.push(prod)
+            }
+          } else {
+            alert('Error');
+          }
+        })
+    },
+    remove(item) {
+      this.getJson(`${API}/deleteFromBasket.json`)
+        .then(data => {
+          if (data.result === 1) {
+            if (item.quantity > 1) {
+              item.quantity--;
+            } else {
+              this.cartItems.splice(this.cartItems.indexOf(item), 1)
+            }
+          }
+        })
+    },
+    filter() {
+      let regexp = new RegExp(this.userSearch, 'i');
+      this.filtered = this.products.filter(el => regexp.test(el.product_name));
+    },
+  },
+  created(){
 
+  },
+  beforeDestroy() {
 
-class ProductList {
-    #goods; //инкапсуляция
-    #allProducts;
-    constructor(container = '.products') {
-        this.container = container;
-        this.#goods = [];
-        this.#allProducts = [];
-        this.#fetchGoods();
+  },
+  beforeUpdate() {
 
-        this.#render();
-        this.sum();
-    }
-    #fetchGoods() {
-        this.#goods = [{
-                id: 1,
-                title: 'Notebook',
-                price: 20000
-            },
-            {
-                id: 2,
-                title: 'Mouse',
-                price: 1500,
-                url: "img/mous.jpg"
-            },
-            {
-                id: 3,
-                title: 'Keyboard',
-                price: 5000,
-                url: "img/clava.jpg"
-            },
-            {
-                id: 4,
-                title: 'Gamepad',
-                price: 4500
-            },
-        ];
-    }
-    // сумма всех товаров
-    sum() {
-        let Sum = 0;
-        for (let product of this.#goods) {
-            const productObject = new Product(product);
-            Sum += parseInt(productObject.price);
+  },
+  mounted() {
+    this.getJson(`${API + this.cartUrl}`)
+      .then(data => {
+        for (let el of data.contents) {
+          this.cartItems.push(el);
         }
-        return Sum;
-    }
-    // количество всех товаров
-    count() {
-        return this.#goods.length;
-    }
-    #render() {
-        const block = document.querySelector(this.container);
-        for (let product of this.#goods) {
-            const productObject = new Product(product);
-            this.#allProducts.push(productObject);
-            block.insertAdjacentHTML("beforeend", productObject.render());
+      });
+    this.getJson(`${API + this.catalogUrl}`)
+      .then(data => {
+        for (let el of data) {
+          this.products.push(el);
+          this.filtered.push(el);
         }
-        block.insertAdjacentHTML("afterEnd", `<p class="qwer">Количество товаров в корзине: ${this.count()} , на общую сумму: ${this.sum() +` &#8381`}.</p>`);
-    }
-};
-
-new ProductList();
+      });
+  }
+});
