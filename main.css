@@ -60,14 +60,16 @@ p {
     border-radius: 5px;
     overflow: hidden;
     margin: 20px 0;
+    outline: 1px solid black;
 }
 img {
     max-width: 100%;
-    height: auto
+    height: auto;
+    outline: 1px solid black;
 }
 .desc {
     border: 1px solid #c0c0c040;
-    padding: 15px
+    padding: 15px;
 }
 .cart{
     position: relative;
@@ -125,7 +127,13 @@ img {
 .product-bio{
     display: flex;
 }
-.cart-item img{
+
+.product-bio img{
+    width: 70px;
+    height: 70px;
+    margin-right: 10px;
+}
+art-item img{
     align-self: flex-start;
     margin-right: 15px;
 }

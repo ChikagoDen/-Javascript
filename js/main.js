@@ -12,7 +12,7 @@ const app = new Vue({
     cartItems: [],
     filtered: [],
     imgCatalog: 'img/zagl.png',
-    imgCart: 'https://placehold.it/50x100',
+    imgCart: 'img/zagl.png',
   },
   methods: {
     getJson(url) {
