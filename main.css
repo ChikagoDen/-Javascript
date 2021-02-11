@@ -1,6 +1,14 @@
+.header{
+    display: flex;
+    justify-content: space-around;
+
+}
 .btn-cart{
     margin-left: 15px;
     margin-top: 15px;
+}
+h2{
+    text-align: center;
 }
 .products,.hamberger,.alert2{
     margin-top: 30px;
@@ -19,4 +27,7 @@ img{
     width: 150px;
     height: 150px;
     outline: 2px solid #000;
+}
+.qwer{
+    margin-left: 35px;
 }
