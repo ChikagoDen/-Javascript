@@ -33,12 +33,6 @@ button:focus{
 .btn-cart, .logo{
     align-self: center;
 }
-/*.products {*/
-/*display: flex;*/
-/*justify-content: space-between;*/
-/*flex-wrap: wrap;*/
-/*padding: 40px 80px;*/
-/*}*/
 h2{
     text-align: center;
 }
@@ -72,14 +66,14 @@ img {
     padding: 15px;
 }
 .cart{
-    position: relative;
+    display: flex;
 }
 .cart-block{
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.62);
     border-radius: 5px;
     box-sizing: border-box;
-    right: 0;
-    top: 130%;
+    right: 70px;
+    top: 20%;
     position: absolute;
     background-color: white;
     padding: 20px;
